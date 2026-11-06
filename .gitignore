@@ -14,3 +14,7 @@ datasets/
 *.onnx
 .ipynb_checkpoints/
 *.onnx.data
+!data/
+!data/processed/
+!data/processed/clean_movies.csv
+!reports/cold_start_popular.csv
