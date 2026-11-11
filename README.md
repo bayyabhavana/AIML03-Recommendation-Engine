@@ -2,195 +2,248 @@
 
 A two-stage movie recommendation system that generates personalized movie recommendations using machine learning, vector similarity search, and deep learning-based ranking.
 
+## Live Demo
+
+**Try the deployed application here:**
+
+[Movie Recommendation Engine – Streamlit App](https://bayyabhavana-aiml03-recommendation-engine-app-lmzbu2.streamlit.app)
+
+**GitHub Repository:**  
+https://github.com/bayyabhavana/AIML03-Recommendation-Engine
+
+---
+
 ## Project Overview
 
-This project implements a personalized recommendation engine using the MovieLens dataset. It combines candidate retrieval and ranking to generate relevant movie recommendations for users.
+The Large-Scale Personalized Recommendation Engine is designed to recommend movies based on user preferences and movie interactions.
+
+The system uses a two-stage recommendation architecture:
+
+1. **Candidate Retrieval:** A Two-Tower deep learning model generates candidate movie recommendations.
+2. **Ranking:** A Wide & Deep model ranks the retrieved candidates based on predicted user preferences.
+
+FAISS is used for efficient similarity search, while Redis is included for caching support.
 
 ## Key Features
 
-- MovieLens dataset preprocessing and exploratory data analysis.
-- User and movie feature engineering using PySpark.
-- Two-Tower deep learning retrieval model.
-- FAISS-based similarity search for candidate retrieval.
-- Wide & Deep neural network for recommendation ranking.
-- ONNX model export and NVIDIA Triton inference integration.
-- FastAPI-based recommendation API.
+- Personalized movie recommendation architecture.
+- Two-Tower retrieval model.
+- Wide & Deep ranking model.
+- FAISS-based vector similarity search.
+- Movie popularity recommendations.
+- Genre-based movie exploration.
+- Model evaluation dashboard.
+- FastAPI recommendation endpoints.
 - Redis caching integration.
-- Streamlit dashboard.
-- Airflow-based scheduled model retraining.
-- Offline A/B testing and online A/B testing prototype.
+- Online A/B testing prototype.
+- ONNX model export.
+- NVIDIA Triton inference integration.
+- Apache Airflow scheduled model retraining.
+- Streamlit web application.
 
-## Technology Stack
+## System Architecture
+
+The project follows a two-stage recommendation pipeline:
+
+**User and Movie Data → Data Preprocessing → Feature Engineering → Two-Tower Retrieval → FAISS Candidate Search → Wide & Deep Ranking → Personalized Recommendations**
+
+Supporting components:
+
+- **Apache Spark:** Data processing and feature engineering.
+- **FAISS:** Vector similarity search.
+- **Redis:** Caching support.
+- **FastAPI:** Recommendation API.
+- **ONNX and NVIDIA Triton:** Model inference integration.
+- **Apache Airflow:** Scheduled model retraining.
+- **Streamlit:** Interactive application and dashboard.
+
+## Technologies Used
 
 | Category | Technologies |
 |---|---|
-| Programming | Python |
+| Programming Language | Python |
+| Data Processing | Pandas, NumPy, Apache Spark |
 | Machine Learning | PyTorch |
-| Data Processing | Pandas, PySpark |
-| Retrieval | FAISS |
-| Ranking | Wide & Deep |
-| Model Deployment | ONNX, NVIDIA Triton |
-| API | FastAPI |
-| Dashboard | Streamlit |
+| Recommendation Models | Two-Tower, Wide & Deep |
+| Vector Search | FAISS |
+| Model Format | ONNX |
+| Model Serving | NVIDIA Triton |
+| API Development | FastAPI |
 | Caching | Redis |
 | Workflow Orchestration | Apache Airflow |
 | Containerization | Docker |
+| Dashboard | Streamlit |
 | Version Control | Git, GitHub |
-
-## Project Architecture
-
-1. Data collection and preprocessing.
-2. Feature engineering and data preparation.
-3. Two-Tower model generates candidate recommendations.
-4. FAISS retrieves similar movie candidates.
-5. Wide & Deep model ranks candidate movies.
-6. Triton serves ONNX model inference.
-7. FastAPI provides recommendation endpoints.
-8. Redis supports caching.
-9. Streamlit provides a dashboard.
-10. Airflow schedules model retraining.
 
 ## Project Structure
 
 ```text
-AIML03_Recommendation_Engine/
+AIML03-Recommendation-Engine/
 │
 ├── airflow/
 │   └── dags/
+│       └── recommendation_retraining.py
+│
+├── data/
+│   └── processed/
+│
 ├── models/
-│   ├── faiss/
-│   └── retrieval/
+│
+├── notebooks/
+│
+├── reports/
+│   ├── evaluation_results.csv
+│   ├── ab_testing_results.csv
+│   └── cold_start_popular.csv
+│
 ├── spark/
+│
 ├── src/
-│   ├── ab_testing.py
-│   ├── clean_data.py
-│   ├── cold_start.py
-│   ├── evaluate_model.py
-│   ├── faiss_retrieval.py
 │   ├── ranking_model.py
 │   ├── recommendation_api.py
-│   ├── redis_cache.py
-│   ├── split_data.py
 │   ├── two_stage_recommendation.py
-│   └── two_tower_model.py
+│   └── ab_testing.py
 │
 ├── triton_model_repository/
+│
 ├── app.py
+├── requirements.txt
 ├── Dockerfile.airflow
 ├── docker-compose-airflow.yaml
 ├── export_onnx.py
+├── README.md
 └── .gitignore
 ```
 
 ## Installation and Setup
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/bayyabhavana/AIML03-Recommendation-Engine.git
+```
+
+### 2. Navigate to the Project Directory
+
+```bash
 cd AIML03-Recommendation-Engine
 ```
 
-### 2. Create a virtual environment
+### 3. Create a Virtual Environment
 
 ```bash
 python -m venv .venv
 ```
 
-Activate it on Windows:
+### 4. Activate the Environment
 
-```bash
+**Windows:**
+
+```powershell
 .venv\Scripts\activate
 ```
 
-### 3. Install dependencies
-
-Install the required packages used by the project:
+### 5. Install Dependencies
 
 ```bash
-pip install numpy pandas scikit-learn torch fastapi uvicorn streamlit faiss-cpu onnx
+pip install -r requirements.txt
 ```
 
-Additional dependencies may be required for Spark, Redis, Airflow, and Triton.
-
-### 4. Run the FastAPI application
-
-```bash
-uvicorn src.recommendation_api:app --reload
-```
-
-API documentation:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-### 5. Run the Streamlit dashboard
+### 6. Run the Streamlit Application
 
 ```bash
 streamlit run app.py
 ```
 
-Dashboard:
+The application will open locally at:
 
 ```text
 http://localhost:8501
 ```
 
+## Application Modules
+
+### 1. Home
+Displays the recommendation engine overview, dataset information, recommendation model, and caching information.
+
+### 2. Popular Movies
+Displays the top popular movies with their genres, average ratings, and rating counts.
+
+### 3. Genre Recommendations
+Allows users to select a movie genre and explore matching movies.
+
+### 4. Model Evaluation
+Displays the available model evaluation metrics and results.
+
+## API Endpoints
+
+The FastAPI service includes the following endpoints:
+
+| Endpoint | Purpose |
+|---|---|
+| `/docs` | Interactive API documentation |
+| `/triton/health` | Triton health check |
+| `/triton/predict` | Triton model prediction |
+| `/ab/recommend/{user_id}` | A/B assigned recommendations |
+| `/ab/click` | Record recommendation clicks |
+| `/ab/report` | View A/B testing report |
+
+These endpoints are available when the corresponding local API services are running.
+
 ## Model Evaluation
 
-The project includes offline evaluation using:
+The project evaluates recommendation performance using:
 
+- RMSE (Root Mean Squared Error)
+- MAE (Mean Absolute Error)
 - Precision@10
 - Recall@10
 - NDCG@10
-- RMSE
-- MAE
 
-The Wide & Deep model was evaluated during retraining with the following recorded results:
+The recorded Wide & Deep retraining run achieved:
 
 | Metric | Result |
 |---|---:|
 | RMSE | 1.1210 |
 | MAE | 0.8649 |
 
-These results are from a recorded training run and may vary across runs.
-
-## A/B Testing
-
-The project includes:
-
-- Offline comparison of Two-Tower and Wide & Deep recommendation approaches.
-- An online A/B testing prototype.
-- User-group assignment.
-- Impression and click event tracking.
-- Click-through rate (CTR) reporting.
-
-Note: The online A/B implementation was functionally tested using simulated events. It does not represent statistically validated real-user engagement.
+An offline A/B comparison was also conducted between the Two-Tower and Wide & Deep approaches.
 
 ## Deployment
 
-The application has been tested locally using Docker, FastAPI, Streamlit, Redis, and NVIDIA Triton.
+The Streamlit dashboard is deployed using **Streamlit Community Cloud**.
 
-**Public deployment:** Pending.
+**Live Application:**  
+https://bayyabhavana-aiml03-recommendation-engine-app-lmzbu2.streamlit.app
 
-## Limitations and Future Improvements
+The dashboard is publicly accessible. The complete supporting infrastructure, including Airflow, Redis, and Triton, was developed and tested locally.
 
-- Evaluate training on the complete MovieLens dataset.
-- Improve cold-start recommendations.
-- Optimize retrieval and ranking performance.
-- Conduct real-user online A/B testing.
-- Deploy the application to a public cloud platform.
-- Add monitoring and production-scale model serving.
+## Important Notes and Limitations
 
-## Author
+- The implementation uses PyTorch for the recommendation models rather than TensorFlow Recommenders.
+- The recorded ranking-model experiment used a training sample of 80,000 records; full MovieLens 25M training has not been demonstrated.
+- The online A/B testing prototype was functionally tested using simulated click events. Its CTR is not a result from a real user experiment.
+- Airflow was configured for local demonstration using SQLite and SequentialExecutor.
+- The public Streamlit deployment provides the dashboard functionality; it does not mean all local infrastructure services are publicly hosted.
 
-**Bayya Bhavana Goud**
+## Future Enhancements
 
-GitHub: https://github.com/bayyabhavana
+- Scale model training to the complete MovieLens 25M dataset.
+- Improve recommendation accuracy and ranking performance.
+- Implement robust cold-start recommendations.
+- Add real-time user interaction tracking.
+- Conduct statistically valid online A/B experiments.
+- Deploy the complete recommendation infrastructure to cloud services.
+- Improve model monitoring and automated retraining.
 
-LinkedIn: https://www.linkedin.com/in/bayya-bhavanagoud/
+## Conclusion
 
-## License
+This project demonstrates a personalized movie recommendation pipeline combining deep learning, vector similarity search, data processing, model serving, API development, workflow orchestration, and interactive dashboard deployment.
 
-This project is developed for educational and portfolio purposes.
+It provides practical experience in building and integrating machine learning components into a recommendation system.
+
+---
+
+**Project:** Large-Scale Personalized Recommendation Engine  
+**Category:** Artificial Intelligence and Machine Learning  
+**Application:** Movie Recommendation System
